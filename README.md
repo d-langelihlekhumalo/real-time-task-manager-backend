@@ -8,7 +8,7 @@ A modern, production-ready ASP.NET Core 8.0 Web API for managing tasks and notes
 - **Real-Time Updates**: SignalR integration for instant client notifications
 - **Activity Tracking**: Comprehensive activity logging and history
 - **Dashboard Analytics**: Statistics and insights about tasks and notes
-- **Entity Framework Core**: Code-first database approach with SQL Server
+- **Entity Framework Core**: Code-first database approach with PostgreSQL
 - **Health Checks**: Database and application health monitoring
 - **Structured Logging**: Serilog with file and console logging
 - **Auto-Mapping**: AutoMapper for DTO transformations
@@ -38,7 +38,7 @@ A modern, production-ready ASP.NET Core 8.0 Web API for managing tasks and notes
 ## 🔧 Prerequisites
 
 - [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) or later
-- [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) or SQL Server LocalDB
+- [PostgreSQL 12+](https://www.postgresql.org/download/) (or use managed PostgreSQL service)
 - [Visual Studio 2022](https://visualstudio.microsoft.com/) or [Visual Studio Code](https://code.visualstudio.com/)
 - Optional: [Postman](https://www.postman.com/) or similar API testing tool
 
@@ -63,7 +63,7 @@ A modern, production-ready ASP.NET Core 8.0 Web API for managing tasks and notes
 
    ```json
    "ConnectionStrings": {
-     "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=RealTimeTaskManager;Trusted_Connection=true;MultipleActiveResultSets=true;"
+     "DefaultConnection": "Host=localhost;Port=5432;Database=RealTimeTaskManager;Username=postgres;Password=postgres"
    }
    ```
 
@@ -82,13 +82,13 @@ The application supports two ways to configure the database connection:
 
    ```json
    "ConnectionStrings": {
-     "DefaultConnection": "Server=your-server;Database=RealTimeTaskManager;..."
+     "DefaultConnection": "Host=localhost;Port=5432;Database=RealTimeTaskManager;Username=postgres;Password=postgres"
    }
    ```
 
 2. **Environment Variable** (takes precedence)
    ```bash
-   set ConnectionStrings__DefaultConnection=Server=your-server;Database=RealTimeTaskManager;...
+   set ConnectionStrings__DefaultConnection=Host=your-host;Port=5432;Database=RealTimeTaskManager;Username=postgres;Password=your-password
    ```
 
 ### CORS Configuration
@@ -390,8 +390,8 @@ RealTimeTaskManager/
 
 ### Database
 
-- **SQL Server** - Primary database
-- **Entity Framework Core SQL Server Provider** - Database provider
+- **PostgreSQL** - Primary database
+- **Npgsql.EntityFrameworkCore.PostgreSQL** - PostgreSQL provider for EF Core
 
 ### Mapping & Validation
 
@@ -410,7 +410,7 @@ RealTimeTaskManager/
 
 ### Monitoring
 
-- **AspNetCore.HealthChecks.SqlServer** - SQL Server health checks
+- **AspNetCore.HealthChecks.Npgsql** - PostgreSQL health checks
 - **Microsoft.Extensions.Diagnostics.HealthChecks** - Health check framework
 
 ### Dependency Injection
@@ -536,12 +536,13 @@ Expected response:
 
 ### Prerequisites for Production
 
-1. Update `appsettings.Production.json` with production settings
-2. Set environment-specific connection strings
-3. Disable Swagger in production (set `SwaggerUI.Enabled` to `false`)
-4. Configure proper CORS origins
-5. Set up SSL certificates
-6. Configure production logging
+1. Set up PostgreSQL database (managed service recommended)
+2. Update `appsettings.Production.json` with production settings
+3. Set environment-specific connection strings
+4. Disable Swagger in production (set `SwaggerUI.Enabled` to `false`)
+5. Configure proper CORS origins
+6. Set up SSL certificates
+7. Configure production logging
 
 ### Publish the Application
 
@@ -553,15 +554,16 @@ dotnet publish -c Release -o ./publish
 
 ```bash
 ASPNETCORE_ENVIRONMENT=Production
-ConnectionStrings__DefaultConnection=<production-connection-string>
+ConnectionStrings__DefaultConnection=Host=your-postgres-host;Port=5432;Database=RealTimeTaskManager;Username=postgres;Password=your-password
 ```
 
 ### Deployment Options
 
-- **IIS**: Use the published output with IIS hosting
+- **Coolify**: Self-hosted PaaS with Docker support (see [DEPLOYMENT.md](DEPLOYMENT.md))
+- **Docker**: Containerized deployment using included Dockerfile
 - **Azure App Service**: Deploy directly from Visual Studio or Azure DevOps
-- **Docker**: Create a Dockerfile for containerized deployment
 - **Kubernetes**: Use container orchestration for scalability
+- **Any Docker-compatible platform**: Railway, Render, DigitalOcean App Platform, etc.
 
 ### Docker Deployment (Example)
 
