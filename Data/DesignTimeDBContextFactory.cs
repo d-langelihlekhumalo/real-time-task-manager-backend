@@ -14,7 +14,7 @@ namespace RealTimeTaskManager.Data
             
             // Use environment variable first, then fall back to default for design-time
             var envConnectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
-            var defaultConnectionString = "Server=localhost\\SQLEXPRESS;Database=RealTimeTaskManager;Trusted_Connection=True;TrustServerCertificate=True;";
+            var defaultConnectionString = "Host=localhost;Port=5432;Database=RealTimeTaskManager;Username=postgres;Password=postgres";
             
             Log.Information("DesignTimeDBContextFactory - Environment variable: {EnvConnString}", 
                 string.IsNullOrEmpty(envConnectionString) ? "NOT SET" : "SET (length: " + envConnectionString.Length + ")");
@@ -23,21 +23,21 @@ namespace RealTimeTaskManager.Data
             
             Log.Information("DesignTimeDBContextFactory - Using connection string from: {Source}", 
                 envConnectionString != null ? "Environment Variable" : "Default fallback");
-            Log.Information("DesignTimeDBContextFactory - Connection string: Server={Server}, Database={Database}", 
-                ExtractServer(connectionString), ExtractDatabase(connectionString));
+            Log.Information("DesignTimeDBContextFactory - Connection string: Host={Host}, Database={Database}", 
+                ExtractHost(connectionString), ExtractDatabase(connectionString));
             
-            optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder.UseNpgsql(connectionString);
 
             return new ApplicationDbContext(optionsBuilder.Options);
         }
 
-        private static string ExtractServer(string connectionString)
+        private static string ExtractHost(string connectionString)
         {
             try
             {
                 var parts = connectionString.Split(';');
-                var serverPart = parts.FirstOrDefault(p => p.Trim().StartsWith("Server=", StringComparison.OrdinalIgnoreCase));
-                return serverPart?.Split('=')[1] ?? "Unknown";
+                var hostPart = parts.FirstOrDefault(p => p.Trim().StartsWith("Host=", StringComparison.OrdinalIgnoreCase));
+                return hostPart?.Split('=')[1] ?? "Unknown";
             }
             catch
             {

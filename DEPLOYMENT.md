@@ -22,6 +22,7 @@ ConnectionStrings__DefaultConnection=Host=your-postgres-host;Port=5432;Database=
 ```
 
 📝 **Note**: Replace with your actual PostgreSQL connection details from Coolify
+
 - Use the **internal** PostgreSQL URL from Coolify (e.g., `postgresql-xxxxx`)
 - Database name: `RealTimeTaskManager`
 - Default port: `5432`
@@ -171,17 +172,20 @@ Logging__LogLevel__Microsoft__AspNetCore=Warning
 ### **PostgreSQL in Coolify (Recommended)**
 
 1. **Create PostgreSQL Database in Coolify**
+
    - Go to Databases → Add New → PostgreSQL
    - Select "PostgreSQL 17 (default)"
    - Wait for deployment to complete
 
 2. **Get Connection Details**
+
    - Copy the internal PostgreSQL URL (e.g., `postgresql-database-xxxxx`)
    - Note the username (usually `postgres`)
    - Copy the generated password
    - Database will be auto-created on first run
 
 3. **Connection String Format:**
+
 ```
 Host=postgresql-database-xxxxx;Port=5432;Database=RealTimeTaskManager;Username=postgres;Password=your-generated-password;
 ```
@@ -189,12 +193,14 @@ Host=postgresql-database-xxxxx;Port=5432;Database=RealTimeTaskManager;Username=p
 ### **External PostgreSQL Options:**
 
 1. **Managed PostgreSQL Services**
+
    - AWS RDS PostgreSQL
    - Azure Database for PostgreSQL
    - Google Cloud SQL PostgreSQL
    - DigitalOcean Managed PostgreSQL
 
 2. **Connection String Example:**
+
 ```
 Host=your-server.postgres.database.azure.com;Port=5432;Database=RealTimeTaskManager;Username=adminuser@servername;Password=your-password;SslMode=Require;
 ```

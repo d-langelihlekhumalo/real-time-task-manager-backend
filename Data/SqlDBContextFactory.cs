@@ -41,10 +41,10 @@ namespace RealTimeTaskManager.Data
                 envConnectionString != null ? "Environment Variable" : "Configuration");
 
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseSqlServer(connectionString, sqlServerOptions =>
+                .UseNpgsql(connectionString, npgsqlOptions =>
                 {
-                    sqlServerOptions.CommandTimeout(180);
-                    sqlServerOptions.EnableRetryOnFailure(maxRetryCount: 3, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                    npgsqlOptions.CommandTimeout(180);
+                    npgsqlOptions.EnableRetryOnFailure(maxRetryCount: 3, maxRetryDelay: TimeSpan.FromSeconds(30), errorCodesToAdd: null);
                 })
                 .Options;
 
