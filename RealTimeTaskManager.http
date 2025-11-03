@@ -1,0 +1,6 @@
+@RealTimeTaskManager_HostAddress = http://localhost:5090
+
+GET {{RealTimeTaskManager_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
