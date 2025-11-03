@@ -1,0 +1,50 @@
+# Ignore build artifacts
+**/bin/
+**/obj/
+**/out/
+**/publish/
+
+# Ignore logs
+**/logs/
+*.log
+
+# Ignore Git files
+.git/
+.gitignore
+.gitattributes
+
+# Ignore IDE files
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userprefs
+
+# Ignore documentation
+README.md
+API-Documentation.md
+
+# Ignore test files
+**/TestResults/
+
+# Ignore NuGet packages
+**/packages/
+
+# Ignore environment files
+.env
+.env.*
+
+# Ignore database files
+*.mdf
+*.ldf
+*.db
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Keep necessary config files
+!appsettings.json
+!appsettings.Production.json
+!global.json
