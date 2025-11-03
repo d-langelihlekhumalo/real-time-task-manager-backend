@@ -18,7 +18,7 @@ RUN dotnet publish "RealTimeTaskManager.csproj" -c Release -o /app/publish /p:Us
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 
-# Install SQL Server client tools (optional, for debugging)
+# Install curl for health checks
 RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 
 # Copy published app
