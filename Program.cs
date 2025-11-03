@@ -59,10 +59,10 @@ Log.Information("Connection string details - Server: {Server}, Database: {Databa
 
 // Add DbContext with connection pooling
 builder.Services.AddDbContextPool<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString, sqlServerOptions =>
+    options.UseNpgsql(connectionString, npgsqlOptions =>
         {
-            sqlServerOptions.CommandTimeout(180);
-            sqlServerOptions.EnableRetryOnFailure(maxRetryCount: 3, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+            npgsqlOptions.CommandTimeout(180);
+            npgsqlOptions.EnableRetryOnFailure(maxRetryCount: 3, maxRetryDelay: TimeSpan.FromSeconds(30));
         }));
 
 // Add AutoMapper
@@ -105,7 +105,7 @@ if (healthChecksConfig.Enabled)
 {
     builder.Services.AddHealthChecks()
         .AddDbContextCheck<ApplicationDbContext>()
-        .AddCheck("sqlserver", () => Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckResult.Healthy("SQL Server is available"));
+        .AddNpgSql(connectionString, name: "postgresql", tags: new[] { "db", "postgresql" });
 }
 
 // Add SignalR
